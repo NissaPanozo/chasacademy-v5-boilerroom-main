@@ -14,7 +14,45 @@ public class ReportDao {
         this.jdbc = jdbc;
     }
 
-    // Här kommer alla 9 frågor
+    // Här kommer alla 9 frågor//
+    // Fråga 1: Antalet böcker ej utlånade för alla bibliotek.
+    public int countUnloanedBooksAllLibraries() {
+        String sql = """
+            SELECT COUNT(*) 
+            FROM exemplar e
+            LEFT JOIN lan l
+              ON l.exemplar_id = e.exemplar_id
+             AND l.slut_datum IS NULL
+            WHERE l.lan_id IS NULL
+            """;
+
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
+    //2. Antalet böcker utlånade för alla bibliotek
+    public int antalUtLånadeTotalt() {
+        String sql = """
+                SELECT COUNT(*)
+                FROM lån
+                WHERE slut_datum IS NULL
+                """;
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
+    //3. fråga: Antalet böcker ej utlånade för alla bibliotek
+    public int countUnloanedBooksAllLibraries() {
+        String sql = """
+            SELECT COUNT(*) 
+            FROM exemplar e
+            LEFT JOIN lan l
+              ON l.exemplar_id = e.exemplar_id
+             AND l.slut_datum IS NULL
+            WHERE l.lan_id IS NULL
+            """;
+
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
 
     // 4. * Top 10 lista på populär böcker per bibliotek.
     public List<BookLoanCount> getTop10BooksPerLibrary() {
@@ -37,16 +75,69 @@ public class ReportDao {
                 )
         );
 
-    // 5. Top 10 lista på populära böcker för alla bibliotek
-    public List<Map<String, Object>> getTop10BooksAllLibraries() {
-        String sql = """
-            SELECT b.title, COUNT(lo.id) AS loan_count
-            FROM books b
-            LEFT JOIN loans lo ON b.id = lo.book_id
-            GROUP BY b.title
-            ORDER BY loan_count DESC
-            LIMIT 10
-            """;
-        return jdbc.queryForList(sql);
+
+        // 5. Top 10 lista på populära böcker för alla bibliotek
+        public List<Map<String, Object>> getTop10BooksAllLibraries() {
+            String sql = """
+        SELECT b.titel AS bok, COUNT(l.id) AS antal_utlåningar
+        FROM bok b
+        LEFT JOIN lån l ON b.id = l.bok_id
+        GROUP BY b.titel
+        ORDER BY antal_utlåningar DESC
+        LIMIT 10
+    """;
+            return jdbc.queryForList(sql);
+        }
+
+        // 6. Se hur många medborgare som lånat en eller flera böcker
+        public int getMedborgareSomLånatBöcker() {
+            String sql = "SELECT COUNT(DISTINCT medlems_id) FROM lån";
+            return jdbc.queryForObject(sql, Integer.class);
+        }
+
+        // 7. Se hur många böcker som aldrig blivit utlånade
+        public int getBooksNeverLoaned() {
+            String sql = """
+        SELECT COUNT(*) 
+        FROM bok b
+        WHERE b.id NOT IN (
+            SELECT e.bok_id 
+            FROM lån l
+            JOIN exemplar e ON l.exemplar_id = e.id
+        )
+    """;
+            return jdbc.queryForObject(sql, Integer.class);
+        }
+
+        // 8. Se antalet böcker per kategori för alla bibliotek
+        public List<Map<String, Object>> getBookCountPerCategoryAllLibraries() {
+            String sql = """
+        SELECT k.namn AS kategori, COUNT(b.id) AS antal_bocker
+        FROM bok b
+        JOIN kategori k ON b.kategori_id = k.id
+        GROUP BY k.namn
+        ORDER BY k.namn
+    """;
+            return jdbc.queryForList(sql);
+        }
+
+        // 9. Se antalet böcker per kategori för varje bibliotek
+        public List<Map<String, Object>> getBookCountPerCategoryPerLibrary() {
+            String sql = """
+        SELECT 
+            lib.namn AS bibliotek,
+            k.namn AS kategori,
+            COUNT(b.id) AS antal_bocker
+        FROM exemplar e
+        JOIN bok b ON e.bok_id = b.id
+        JOIN kategori k ON b.kategori_id = k.id
+        JOIN bibliotek lib ON e.biblioteks_id = lib.id
+        GROUP BY lib.namn, k.namn
+        ORDER BY lib.namn, k.namn
+    """;
+
+            return jdbc.queryForList(sql);
+        }
+
+
     }
-}
