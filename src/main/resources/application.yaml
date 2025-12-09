@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/library_db
     username: postgres
-    password: postgres
+    password: Caramba89
 logging:
   level:
     root: WARN
