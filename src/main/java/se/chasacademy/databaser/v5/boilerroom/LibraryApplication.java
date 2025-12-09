@@ -1,4 +1,4 @@
-package se.chasacademy.v5.boilerroom;
+package se.chasacademy.databaser.v5.boilerroom;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,7 +7,7 @@ import se.chasacademy.databaser.v5.boilerroom.seeder.DatabaseSeeder;
 
 @SpringBootApplication
 public class LibraryApplication implements CommandLineRunner {
-private final DatabaseSeeder seeder;
+    private final DatabaseSeeder seeder;
 
     public LibraryApplication(DatabaseSeeder seeder) {
         /* Tom konstruktor för framtiden. */
