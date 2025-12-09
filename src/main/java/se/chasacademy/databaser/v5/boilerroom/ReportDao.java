@@ -16,6 +16,16 @@ public class ReportDao {
         this.dao = dao;
     }
 
+    //2. Antalet böcker utlånade för alla bibliotek
+    public int antalUtLånadeTotalt() {
+        String sql = """
+                SELECT COUNT(*)
+                FROM lån
+                WHERE slut_datum IS NULL
+                """;
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
     // Här kommer alla 9 frågor//
     //3. fråga: Antalet böcker ej utlånade för alla bibliotek
     public int countUnloanedBooksAllLibraries() {
@@ -53,15 +63,6 @@ public class ReportDao {
                 )
         );
 
-    //2. Antalet böcker utlånade för alla bibliotek
-    public int antalUtLånadeTotalt() {
-        String sql = """
-                SELECT COUNT(*)
-                FROM lån
-                WHERE slut_datum IS NULL
-                """;
-        return jdbc.queryForObject(sql, Integer.class);
-    }
 
     // 5. Top 10 lista på populära böcker för alla bibliotek
     public List<Map<String, Object>> getTop10BooksAllLibraries() {
