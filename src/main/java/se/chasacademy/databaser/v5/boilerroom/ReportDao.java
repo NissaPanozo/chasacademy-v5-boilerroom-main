@@ -16,6 +16,27 @@ public class ReportDao {
 
     // Här kommer alla 9 frågor
 
+    // 4. * Top 10 lista på populär böcker per bibliotek.
+    public List<BookLoanCount> getTop10BooksPerLibrary() {
+        String sql = """
+        SELECT b.titel, lib.namn AS bibliotek, COUNT(l.id) AS antal_utlan
+        FROM lån l
+        JOIN exemplar e ON l.exemplar_id = e.id
+        JOIN bok b ON e.bok_id = b.id
+        JOIN bibliotek lib ON e.biblioteks_id = lib.id
+        GROUP BY b.titel, lib.namn
+        ORDER BY lib.namn, antal_utlan DESC
+        LIMIT 10
+    """;
+
+        return jdbc.query(sql, (rs, rowNum) ->
+                new BookLoanCount(
+                        rs.getString("titel"),
+                        rs.getString("bibliotek"),
+                        rs.getInt("antal_utlan")
+                )
+        );
+
     // 5. Top 10 lista på populära böcker för alla bibliotek
     public List<Map<String, Object>> getTop10BooksAllLibraries() {
         String sql = """
