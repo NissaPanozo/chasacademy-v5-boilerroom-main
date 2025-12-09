@@ -9,11 +9,9 @@ import java.util.Map;
 @Repository
 public class ReportDao {
     private final JdbcTemplate jdbc;
-    private final ReportDao dao;
 
-    public ReportDao(JdbcTemplate jdbc, ReportDao dao) {
+    public ReportDao(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
-        this.dao = dao;
     }
 
     // Här kommer alla 9 frågor//
