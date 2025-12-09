@@ -14,7 +14,21 @@ public class ReportDao {
         this.jdbc = jdbc;
     }
 
-    // Här kommer alla 9 frågor
+    // Här kommer alla 9 frågor//
+    //3. fråga: Antalet böcker ej utlånade för alla bibliotek
+    public int countUnloanedBooksAllLibraries() {
+        String sql = """
+            SELECT COUNT(*) 
+            FROM exemplar e
+            LEFT JOIN lan l
+              ON l.exemplar_id = e.exemplar_id
+             AND l.slut_datum IS NULL
+            WHERE l.lan_id IS NULL
+            """;
+
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
 
     // 5. Top 10 lista på populära böcker för alla bibliotek
     public List<Map<String, Object>> getTop10BooksAllLibraries() {
