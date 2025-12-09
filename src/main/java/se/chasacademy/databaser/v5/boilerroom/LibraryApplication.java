@@ -1,4 +1,4 @@
-package se.chasacademy-v5-boilerroom-main;
+package se.chasacademy.v5.boilerroom;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
