@@ -1,0 +1,25 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.0'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'se.chasacademy.databaser.wsjdbc'
+version = '0.0.1-SNAPSHOT'
+description = 'Blog Sample'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.postgresql:postgresql:42.7.8'
+}
