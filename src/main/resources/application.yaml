@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Library
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library_db
+    username: postgres
+    password: postgres
+logging:
+  level:
+    root: WARN
