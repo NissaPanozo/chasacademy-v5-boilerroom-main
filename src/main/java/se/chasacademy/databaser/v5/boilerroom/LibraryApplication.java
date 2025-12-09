@@ -3,6 +3,8 @@ package se.chasacademy.databaser.v5.boilerroom;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
