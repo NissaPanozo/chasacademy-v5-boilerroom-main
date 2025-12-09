@@ -16,16 +16,6 @@ public class ReportDao {
         this.dao = dao;
     }
 
-    //2. Antalet böcker utlånade för alla bibliotek
-    public int antalUtLånadeTotalt() {
-        String sql = """
-                SELECT COUNT(*)
-                FROM lån
-                WHERE slut_datum IS NULL
-                """;
-        return jdbc.queryForObject(sql, Integer.class);
-    }
-
     // Här kommer alla 9 frågor//
     // Fråga 1: Antalet böcker ej utlånade för alla bibliotek.
     public int countUnloanedBooksAllLibraries() {
@@ -40,6 +30,17 @@ public class ReportDao {
 
         return jdbc.queryForObject(sql, Integer.class);
     }
+
+    //2. Antalet böcker utlånade för alla bibliotek
+    public int antalUtLånadeTotalt() {
+        String sql = """
+                SELECT COUNT(*)
+                FROM lån
+                WHERE slut_datum IS NULL
+                """;
+        return jdbc.queryForObject(sql, Integer.class);
+    }
+
     //3. fråga: Antalet böcker ej utlånade för alla bibliotek
     public int countUnloanedBooksAllLibraries() {
         String sql = """
