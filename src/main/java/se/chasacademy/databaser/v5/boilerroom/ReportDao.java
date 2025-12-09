@@ -42,14 +42,14 @@ public class ReportDao {
     }
 
     //3. fråga: Antalet böcker ej utlånade för alla bibliotek
-    public int countUnloanedBooksAllLibraries() {
+    public int antaletBöckerEjUtlånade() {
         String sql = """
             SELECT COUNT(*) 
             FROM exemplar e
-            LEFT JOIN lan l
+            LEFT JOIN lån l
               ON l.exemplar_id = e.exemplar_id
              AND l.slut_datum IS NULL
-            WHERE l.lan_id IS NULL
+            WHERE l.lån_id IS NULL
             """;
 
         return jdbc.queryForObject(sql, Integer.class);
