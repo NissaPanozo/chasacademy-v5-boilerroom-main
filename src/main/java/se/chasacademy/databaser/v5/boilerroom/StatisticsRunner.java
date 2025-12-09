@@ -4,6 +4,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class StatisticsRunner implements CommandLineRunner {
     private final JdbcTemplate jdbc;
@@ -24,9 +26,13 @@ public class StatisticsRunner implements CommandLineRunner {
         int antalUtlånade = dao.antalUtlånadeTotalt();
         System.out.println("Antalet totalt utlånade böcker: " + antalUtlånade);
 
-        //3:
+        //Fråga 3:
         int antaletBöckerEjUtlånade = dao.antaletBöckerEjUtlånade();
         System.out.println("Antalet böcker ej utlånade för alla bibliotek: " + antaletBöckerEjUtlånade);
+
+        //Fråga 4:
+        List<BokLånRäknare> top10BokPerBibliotek = dao.top10BokPerBibliotek();
+        System.out.println("Top 10 lista på populär böcker per bibliotek: " + top10BokPerBibliotek);
 
 
     }
