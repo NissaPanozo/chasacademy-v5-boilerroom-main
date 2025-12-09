@@ -9,11 +9,11 @@ import java.util.Map;
 @Repository
 public class ReportDao {
     private final JdbcTemplate jdbc;
-    private final ReportDao dao;
+    private final BokLånRäknare bokRäknare;
 
-    public ReportDao(JdbcTemplate jdbc, ReportDao dao) {
+    public ReportDao(JdbcTemplate jdbc, BokLånRäknare bokRäknare) {
         this.jdbc = jdbc;
-        this.dao = dao;
+        this.bokRäknare = bokRäknare;
     }
 
     // Här kommer alla 9 frågor//
@@ -57,23 +57,23 @@ public class ReportDao {
 
 
     // 4. * Top 10 lista på populär böcker per bibliotek.
-    public List<BookLoanCount> getTop10BooksPerLibrary() {
+    public List<BokLånRäknare> top10BokPerBibliotek() {
         String sql = """
-        SELECT b.titel, lib.namn AS bibliotek, COUNT(l.id) AS antal_utlan
+        SELECT bl.namn AS bibliotek, b.titel AS bok, COUNT(l.ån_id) AS antal_lån
         FROM lån l
-        JOIN exemplar e ON l.exemplar_id = e.id
-        JOIN bok b ON e.bok_id = b.id
-        JOIN bibliotek lib ON e.biblioteks_id = lib.id
-        GROUP BY b.titel, lib.namn
-        ORDER BY lib.namn, antal_utlan DESC
-        LIMIT 10
+        JOIN exemplar e ON l.exemplar_id = e.exemplar_id
+        JOIN bok b ON e.bok_id = b.bok_id
+        JOIN bibliotek bl ON e.biblioteks_id = bl.biblioteks_id
+        GROUP BY bl.namn, b.titel
+        ORDER BY bl.namn, antal_lån DESC
+        LIMIT 10;
     """;
 
         return jdbc.query(sql, (rs, rowNum) ->
-                new BookLoanCount(
+                new BokLånRäknare(
                         rs.getString("titel"),
                         rs.getString("bibliotek"),
-                        rs.getInt("antal_utlan")
+                        rs.getInt("antal_lån")
                 )
         );
 
