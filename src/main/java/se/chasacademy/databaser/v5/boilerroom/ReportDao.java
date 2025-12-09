@@ -32,7 +32,7 @@ public class ReportDao {
     }
 
     //2. Antalet böcker utlånade för alla bibliotek
-    public int antalUtLånadeTotalt() {
+    public int antalUtlånadeTotalt() {
         String sql = """
                 SELECT COUNT(*)
                 FROM lån

@@ -16,8 +16,7 @@ public class StatisticsRunner implements CommandLineRunner {
 
     @Override
     public void run (String... args) throws Exception {
-        System.out.println("");
-        int antalUtLånade = dao.antalUtlånadeTotalt();
-        System.out.println("Antalet totalt utlånade böcker: " + antalUtLånade);
+        int antalUtlånade = dao.antalUtlånadeTotalt();
+        System.out.println("Antalet totalt utlånade böcker: " + antalUtlånade);
     }
 }
