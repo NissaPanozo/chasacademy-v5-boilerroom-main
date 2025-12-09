@@ -23,5 +23,11 @@ public class StatisticsRunner implements CommandLineRunner {
         //Fråga 2.
         int antalUtlånade = dao.antalUtlånadeTotalt();
         System.out.println("Antalet totalt utlånade böcker: " + antalUtlånade);
+
+        //3:
+        int antaletBöckerEjUtlånade = dao.antaletBöckerEjUtlånade();
+        System.out.println("Antalet böcker ej utlånade för alla bibliotek: " + antaletBöckerEjUtlånade);
+
+
     }
 }
