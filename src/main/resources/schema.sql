@@ -1,5 +1,4 @@
 -- Skapa era tabeller här
--- Skapa era tabeller här
 CREATE TABLE IF NOT EXISTS bibliotek (
     biblioteks_id  SERIAL PRIMARY KEY,
     namn           VARCHAR(100) NOT NULL,
